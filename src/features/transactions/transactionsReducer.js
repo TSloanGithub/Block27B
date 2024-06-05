@@ -28,11 +28,13 @@ const transactionsReducer = (state = initialState, action) => {
   switch (action.type) {
     case 'withdrawal':
       state.balance -= action.data.amount;
-      state.history.push({
+      state.history = state.history.concat([{
         type: 'withdrawal',
         amount: action.data.amount,
         balance: state.balance,
-      });
+      }]);
+
+      return state;
     default:
       return state;
   }
@@ -55,7 +57,7 @@ export const transfer = () => {
   // TODO
 }
 
-export const selectBalance = (state) => state.transactions.balance;
-export const selectHistory = (state) => state.transactions.history;
+export const selectBalance = (state) => state.balance;
+export const selectHistory = (state) => state.history;
 
 export default transactionsReducer;
