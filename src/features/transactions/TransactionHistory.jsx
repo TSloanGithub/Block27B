@@ -11,7 +11,7 @@ const TransactionRow = ({ transaction: { type, amount, balance } }) => (
 
 /** Displays a table of the user's transaction history. */
 export default function TransactionHistory() {
-  // TODO: Get the transaction history from the Redux store using the useSelector hook
+  // TODO: Get the transaction history from the Redux store using the useEffect hook
   const history = [];
 
   return (

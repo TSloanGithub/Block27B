@@ -6,7 +6,7 @@ import "./transactions.scss";
  * Allows users to deposit to, withdraw from, and transfer money from their account.
  */
 export default function Transactions() {
-  // TODO: Get the balance from the Redux store using the useSelector hook
+  // TODO: Get the balance from the Redux store using the useEffect hook
   const balance = 0;
 
   const [amountStr, setAmountStr] = useState("0.00");
