@@ -1,4 +1,6 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { store } from "../../app/store.js";
+import { withdrawal } from "./transactionsReducer.js";
 
 import "./transactions.scss";
 
@@ -6,10 +8,15 @@ import "./transactions.scss";
  * Allows users to deposit to, withdraw from, and transfer money from their account.
  */
 export default function Transactions() {
-  // TODO: Get the balance from the Redux store using the useEffect hook
-  const balance = 0;
-
+  const [balance, setBalance] = useState(store.getState().balance);
   const [amountStr, setAmountStr] = useState("0.00");
+  useEffect(() => {
+    const unsub = store.subscribe(() => {
+      setBalance(store.getState().balance);
+    });
+
+    return unsub;
+  }, []);
 
   /** Dispatches a transaction action based on the form submission. */
   const onTransaction = (e) => {
@@ -21,7 +28,9 @@ export default function Transactions() {
 
     const amount = +amountStr;
 
-    // TODO: Dispatch the appropriate transaction action based on `action`
+    if (action === 'withdraw') {
+      store.dispatch(withdrawal(amount));
+    }
   };
 
   return (
