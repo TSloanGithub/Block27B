@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react";
 import { store } from "../../app/store.js";
 import { withdrawal } from "./transactionsReducer.js";
+import { deposit } from "./transactionsReducer.js";
 
 import "./transactions.scss";
 
@@ -9,10 +10,12 @@ import "./transactions.scss";
  */
 export default function Transactions() {
   const [balance, setBalance] = useState(store.getState().balance);
+  const [history, setHistory] = useState(store.getState().history)
   const [amountStr, setAmountStr] = useState("0.00");
   useEffect(() => {
     const unsub = store.subscribe(() => {
-      setBalance(store.getState().balance);
+      setBalance(store.getState().balance),
+      setHistory(store.getState().history)
     });
 
     return unsub;
@@ -30,6 +33,8 @@ export default function Transactions() {
 
     if (action === 'withdraw') {
       store.dispatch(withdrawal(amount));
+    } else if (action === 'deposit'){
+      store.dispatch(deposit(amount));
     }
   };
 

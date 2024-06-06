@@ -33,11 +33,20 @@ const transactionsReducer = (state = initialState, action) => {
         amount: action.data.amount,
         balance: state.balance,
       }]);
+      break;
+    case 'deposit':
+      state.balance += action.data.amount;
+      state.history = state.history.concat([{
+        type: 'deposit',
+        amount: action.data.amount,
+        balance: state.balance,
+      }]);
 
       return state;
     default:
       return state;
   }
+  return state;
 };
 
 export const withdrawal = (amount) => {
@@ -49,8 +58,14 @@ export const withdrawal = (amount) => {
   };
 }
 
-export const deposit = () => {
+export const deposit = (amount) => {
   // TODO
+  return {
+    type: 'deposit',
+    data: {
+      amount,
+    },
+  };
 }
 
 export const transfer = () => {
