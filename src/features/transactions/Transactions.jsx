@@ -11,14 +11,15 @@ import "./transactions.scss";
  */
 export default function Transactions() {
   const [balance, setBalance] = useState(store.getState().balance);
-  const [history, setHistory] = useState(store.getState().history);
+  // const [history, setHistory] = useState(store.getState().history);
   const [amountStr, setAmountStr] = useState("0.00");
   const [recipient, setRecipient] = useState('');
+
+  //This use effect is setting the balance to the value of the current state of balance. Store is the object all state is stored within.
+  //Because the app allows us to change the input and the input changes after we hit withdraw/deposit/transfer. The useEffect updates it.
   useEffect(() => {
     const unsub = store.subscribe(() => {
-      setBalance(store.getState().balance),
-      setHistory(store.getState().history)
-      setRecipient(store.subscribe().recipient)
+      setBalance(store.getState().balance)
     });
 
     return unsub;
@@ -77,7 +78,7 @@ export default function Transactions() {
             placeholder="Recipient Name" 
             name="recipient" 
             value={recipient} 
-            onChange={setRecipient(e.target.value)} 
+            onChange={(e)=>setRecipient(e.target.value)} 
             />
           </label>
           <button name="transfer">Transfer</button>

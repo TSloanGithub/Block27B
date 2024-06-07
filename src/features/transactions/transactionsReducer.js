@@ -76,7 +76,7 @@ export const deposit = (amount) => {
   };
 }
 
-export const transfer = (amount,name) => {
+export const transfer = (amount,recipient) => {
   // TODO
   return {
     type: 'transfer',
