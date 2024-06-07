@@ -2,6 +2,7 @@ import { useState, useEffect } from "react";
 import { store } from "../../app/store.js";
 import { withdrawal } from "./transactionsReducer.js";
 import { deposit } from "./transactionsReducer.js";
+import { transfer } from "./transactionsReducer.js";
 
 import "./transactions.scss";
 
@@ -10,12 +11,14 @@ import "./transactions.scss";
  */
 export default function Transactions() {
   const [balance, setBalance] = useState(store.getState().balance);
-  const [history, setHistory] = useState(store.getState().history)
+  const [history, setHistory] = useState(store.getState().history);
   const [amountStr, setAmountStr] = useState("0.00");
+  const [recipient, setRecipient] = useState('');
   useEffect(() => {
     const unsub = store.subscribe(() => {
       setBalance(store.getState().balance),
       setHistory(store.getState().history)
+      setRecipient(store.subscribe().recipient)
     });
 
     return unsub;
@@ -35,6 +38,8 @@ export default function Transactions() {
       store.dispatch(withdrawal(amount));
     } else if (action === 'deposit'){
       store.dispatch(deposit(amount));
+    } else if (action === 'transfer'){
+      store.dispatch(transfer(amount, recipient));
     }
   };
 
@@ -68,7 +73,12 @@ export default function Transactions() {
         <div className="form-row">
           <label>
             Transfer to
-            <input type="text" placeholder="Recipient Name" name="recipient" />
+            <input type="text" 
+            placeholder="Recipient Name" 
+            name="recipient" 
+            value={recipient} 
+            onChange={setRecipient(e.target.value)} 
+            />
           </label>
           <button name="transfer">Transfer</button>
         </div>
